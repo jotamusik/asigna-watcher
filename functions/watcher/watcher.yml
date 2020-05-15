@@ -1,0 +1,7 @@
+
+handler: functions/watcher/handler.watcher
+events:
+  - schedule:
+      rate: rate(1 minute)
+      name: ${file(serverless.yml):custom.ruleName}
+      enabled: false

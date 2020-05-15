@@ -1,0 +1,15 @@
+
+handler: functions/activator/handler.activator
+events:
+  - http:
+      path: activate
+      method: post
+iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - lambda:*
+      - events:*
+    Resource: "*"
+environment:
+  functionName: ${file(serverless.yml):custom.watcherFunctionName}
+  ruleName: ${file(serverless.yml):custom.ruleName}
