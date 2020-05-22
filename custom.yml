@@ -1,0 +1,16 @@
+variables:
+  serviceName: asigna-watcher
+  stage: dev
+  region: eu-west-2
+  watcherFunctionName: ${file(custom.yml):variables.serviceName}-${file(custom.yml):variables.stage}-watcher
+  ruleName: watcher-schedule-rule
+  emailNotificatorTopicName: ${file(custom.yml):variables.stage}-asignaEmailNotificator
+  notificationDestEmail: "jotamusik@gmail.com"
+  scheduleExpression: cron(0 12 * * ? *)
+  emailNotificatorTopicArn:
+    'Fn::Join':
+      - ':'
+      - - 'arn:aws:sns'
+        - Ref: 'AWS::Region'
+        - Ref: 'AWS::AccountId'
+        - ${file(custom.yml):variables.emailNotificatorTopicName}

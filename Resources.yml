@@ -1,0 +1,11 @@
+Resources:
+  AsignaEmailNotificator:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: ${file(custom.yml):variables.emailNotificatorTopicName}
+  AsignaEmailNotificatorSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Protocol: email
+      Endpoint: ${file(custom.yml):variables.notificationDestEmail}
+      TopicArn: !Ref "AsignaEmailNotificator"

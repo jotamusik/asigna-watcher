@@ -1,0 +1,17 @@
+
+handler: functions/activateOrDeactivateWatcher/handler.activateOrDeactivateWatcher
+events:
+  - http:
+      path: activate
+      method: post
+iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - lambda:*
+      - events:*
+    Resource: "*"
+environment:
+  functionName: ${file(custom.yml):variables.watcherFunctionName}
+  ruleName: ${file(custom.yml):variables.ruleName}
+  scheduleExpression: ${file(custom.yml):variables.scheduleExpression}
+  emailNotificatorTopicArn: ${file(custom.yml):variables.emailNotificatorTopicArn}

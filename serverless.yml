@@ -1,16 +1,9 @@
 service:
-  name: ${self:custom.serviceName}
+  name: ${file(custom.yml):variables.serviceName}
 
 package:
   exclude:
     - test/**
-
-custom:
-  serviceName: asigna-watcher
-  stage: dev
-  region: eu-west-2
-  watcherFunctionName: ${self:custom.serviceName}-${self:custom.stage}-watcher
-  ruleName: watcher-schedule-rule
 
 plugins:
   - serverless-plugin-typescript
@@ -19,13 +12,16 @@ plugins:
 provider:
   name: aws
   runtime: nodejs12.x
-  region: ${self:custom.region}
-  stage: ${self:custom.stage}
+  region: ${file(custom.yml):variables.region}
+  stage: ${file(custom.yml):variables.stage}
 
 
 functions:
   watcher:
     ${file(functions/watcher/watcher.yml)}
 
-  activator:
-    ${file(functions/activator/activator.yml)}
+  activateOrDeactivateWatcher:
+    ${file(functions/activateOrDeactivateWatcher/activateOrDeactivateWatcher.yml)}
+
+resources:
+  ${file(Resources.yml)}

@@ -2,6 +2,11 @@
 handler: functions/watcher/handler.watcher
 events:
   - schedule:
-      rate: rate(1 minute)
-      name: ${file(serverless.yml):custom.ruleName}
+      rate: ${file(custom.yml):variables.scheduleExpression}
+      name: ${file(custom.yml):variables.ruleName}
       enabled: false
+iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - sns:*
+    Resource: "*"
